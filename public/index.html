@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Banking Transaction System</title>
+</head>
+<body>
+
+<h1>💳 Banking Transaction System</h1>
+
+<h3>Transfer Money</h3>
+
+<input type="text" id="from" placeholder="From Account ID"><br><br>
+<input type="text" id="to" placeholder="To Account ID"><br><br>
+<input type="number" id="amount" placeholder="Amount"><br><br>
+
+<button onclick="transferMoney()">Transfer</button>
+
+<p id="result"></p>
+
+<script>
+async function transferMoney() {
+  const from = document.getElementById("from").value;
+  const to = document.getElementById("to").value;
+  const amount = document.getElementById("amount").value;
+
+  const res = await fetch("/api/transfer", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      fromAccountId: from,
+      toAccountId: to,
+      amount: Number(amount)
+    })
+  });
+
+  const data = await res.json();
+  document.getElementById("result").innerText = data.message || data.error;
+}
+</script>
+
+</body>
+</html>
